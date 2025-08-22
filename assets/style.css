@@ -3,3 +3,11 @@
   width: 300px;   /* Adjust as needed */
   height: auto;   /* Keeps proportions */
 }
+
+/* Header logo sizing */
+header .logo img,
+.logo img,
+.logo-img {
+  height: 64px;   /* try 48–64px */
+  width: auto;
+}
