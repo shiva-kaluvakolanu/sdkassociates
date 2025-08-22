@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recent work · SDK Associates</title>
+  <meta name="description" content="Case studies and recent work from SDK Associates — Business Analysis, Project & Product Management." />
+  <meta property="og:title" content="Recent work · SDK Associates" />
+  <meta property="og:description" content="Case studies and recent work from SDK Associates — Business Analysis, Project & Product Management." />
+  <meta property="og:image" content="assets/sdkassociates_logo.png" />
+  <meta property="og:type" content="website" />
+
+  <!-- Site CSS + Fonts -->
+  <link rel="stylesheet" href="assets/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Page styles (kept light so it fits your theme) -->
+  <style>
+    :root {
+      --bg:#0b0b0b;
+      --ink:#e6f6f9;
+      --muted:#b8c3c7;
+      --brand:#05b8da;
+      --card:#111;
+      --line:#1f2a2e;
+      --shadow: 0 10px 30px rgba(5,184,218,.15);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      color: var(--ink);
+      background: radial-gradient(1200px 700px at 60% 0%, #0d2b31 0%, #0b0b0b 55%);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Header / nav */
+    header.nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: #090909;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header .logo { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+    header nav a {
+      color: var(--ink);
+      text-decoration: none;
+      opacity: .85;
+      margin-left: 1rem;
+    }
+    header nav a:hover { opacity: 1; color: var(--brand); }
+
+    /* Layout */
+    .container {
+      max-width: 1100px;
+      margin: 3.5rem auto;
+      padding: 0 1.25rem;
+    }
+    .kicker {
+      display:inline-block;
+      font-size: .9rem;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: .35rem .6rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 3.8vw, 3rem);
+      line-height: 1.1;
+      margin: .5rem 0 1rem;
+      letter-spacing: -.02em;
+    }
+    p.lead {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 70ch;
+    }
+
+    /* Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .card {
+      grid-column: span 12;
+      background: linear-gradient(180deg, #0f1213, #0c0d0f);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem 1.25rem 1rem;
+    }
+    @media (min-width: 840px) {
+      .card { grid-column: span 6; }
+    }
+    .card h2 { margin: 0 0 .5rem; font-size: 1.25rem; }
+    .meta {
+      display:flex; flex-wrap:wrap; gap:.5rem;
+      margin:.35rem 0 1rem;
+    }
+    .tag {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: .25rem .55rem;
+      border-radius: 999px;
+      font-size: .85rem;
+    }
+    .card p { color: var(--muted); margin: .5rem 0; }
+    .card ul { margin: .35rem 0 .75rem 1.1rem; color: var(--muted); }
+    .card a { color: var(--brand); text-decoration: none; }
+    .card a:hover { text-decoration: underline; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      padding: 2rem 1.25rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    /* Buttons (reuse look from home) */
+    .button {
+      display:inline-block;
+      padding:.75rem 1rem;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background:#0d0f10;
+      color:var(--ink);
+      text-decoration:none;
+    }
+    .button.primary {
+      background: var(--brand);
+      color: #032c33;
+      border: 1px solid #043b44;
+      box-shadow: 0 0 24px rgba(5,184,218,.25);
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <a href="index.html" class="logo" aria-label="SDK Associates home">
+      <img src="assets/sdkassociates_logo.png" alt="SDK Associates" class="logo-img">
+    </a>
+    <nav>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="work.html" aria-current="page">Work</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <span class="kicker">Case studies</span>
+    <h1>Recent work</h1>
+    <p class="lead">
+      A selection of projects across business analysis, delivery governance,
+      and product leadership. Details are anonymised for client confidentiality.
+    </p>
+
+    <section class="grid">
+      <!-- Case study 1 -->
+      <article class="card">
+        <h2>Enterprise platform uplift</h2>
+        <div class="meta">
+          <span class="tag">Discovery</span>
+          <span class="tag">Governance</span>
+          <span class="tag">Vendor mgmt</span>
+          <span class="tag">Gov &amp; Private</span>
+        </div>
+        <p>
+          Led discovery and delivery governance for an enterprise platform uplift,
+          aligning cross-functional teams and vendors on outcomes, risks, and value.
+        </p>
+        <ul>
+          <li>Defined scope, objectives, and measurable outcomes.</li>
+          <li>Set up delivery controls, RAID, and decision frameworks.</li>
+          <li>Improved time-to-value through clearer acceptance criteria.</li>
+        </ul>
+        <a href="#" aria-disabled="true">Request a deeper walkthrough →</a>
+      </article>
+
+      <!-- Case study 2 -->
+      <article class="card">
+        <h2>Digital service redesign</h2>
+        <div class="meta">
+          <span class="tag">Business Analysis</span>
+          <span class="tag">Process mapping</span>
+          <span class="tag">UAT</span>
+        </div>
+        <p>
+          Re-mapped key processes end-to-end and introduced acceptance criteria
+          to reduce ambiguity and increase release quality for a customer-facing service.
+        </p>
+        <ul>
+          <li>Workshops with SMEs to capture current &amp; future state.</li>
+          <li>User stories and acceptance criteria for critical journeys.</li>
+          <li>UAT approach aligned to business outcomes.</li>
+        </ul>
+        <a href="#" aria-disabled="true">Discuss this engagement →</a>
+      </article>
+
+      <!-- Case study 3 -->
+      <article class="card">
+        <h2>Product roadmap &amp; OKRs</h2>
+        <div class="meta">
+          <span class="tag">Product mgmt</span>
+          <span class="tag">OKRs</span>
+          <span class="tag">Value measurement</span>
+        </div>
+        <p>
+          Established a product operating rhythm with OKRs, roadmaps, and feedback loops
+          to tie delivery to measurable business outcomes.
+        </p>
+        <ul>
+          <li>Quarterly OKRs cascading from strategic goals.</li>
+          <li>Prioritisation and roadmap ceremonies.</li>
+          <li>Value tracking dashboards for stakeholders.</li>
+        </ul>
+        <a href="#" aria-disabled="true">Learn how we approach product →</a>
+      </article>
+
+      <!-- Case study 4 -->
+      <article class="card">
+        <h2>Risk &amp; issue control for hybrid delivery</h2>
+        <div class="meta">
+          <span class="tag">Project mgmt</span>
+          <span class="tag">Hybrid delivery</span>
+          <span class="tag">Controls</span>
+        </div>
+        <p>
+          Introduced pragmatic controls for a hybrid delivery model, improving transparency,
+          cadence, and cross-team alignment without slowing delivery.
+        </p>
+        <ul>
+          <li>Risk/issue management and escalation path.</li>
+          <li>Governance cadence with decision logs.</li>
+          <li>Stakeholder reporting focused on outcomes.</li>
+        </ul>
+        <a href="#" aria-disabled="true">Talk about your context →</a>
+      </article>
+    </section>
+
+    <p style="margin-top:2rem;">
+      <a class="button" href="index.html">← Back to home</a>
+      <a class="button primary" href="contact.html" style="margin-left:.5rem;">Book a chat</a>
+    </p>
+  </main>
+
+  <footer>
+    © <span id="y"></span> SDK Associates
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
