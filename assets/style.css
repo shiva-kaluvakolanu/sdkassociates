@@ -8,6 +8,6 @@
 header .logo img,
 .logo img,
 .logo-img {
-  height: 64px;   /* try 48–64px */
+  height: 48px;   /* try 48–64px */
   width: auto;
 }
