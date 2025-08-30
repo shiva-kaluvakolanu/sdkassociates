@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Positive Pathways Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl p-4 sm:p-6 md:p-8">
+        <header class="mb-6 md:mb-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">COVID-19 Positive Pathways Dashboard</h1>
+            <p class="text-gray-500 text-sm sm:text-base mt-2">Sample data for a portfolio project, based on publicly available DHHS metrics.</p>
+        </header>
+
+        <!-- Filters Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 md:mb-8">
+            <div class="flex flex-col">
+                <label for="date-filter" class="text-xs sm:text-sm font-medium text-gray-700 mb-1">Filter by Month</label>
+                <select id="date-filter" class="p-2 md:p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <option value="all">All Months</option>
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label for="age-group-filter" class="text-xs sm:text-sm font-medium text-gray-700 mb-1">Filter by Age Group</label>
+                <select id="age-group-filter" class="p-2 md:p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <option value="all">All Age Groups</option>
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label for="outcome-filter" class="text-xs sm:text-sm font-medium text-gray-700 mb-1">Filter by Outcome</label>
+                <select id="outcome-filter" class="p-2 md:p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <option value="all">All Outcomes</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Key Metrics Section -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 md:mb-8">
+            <div class="bg-gray-50 p-4 md:p-6 rounded-xl shadow-md border border-gray-200">
+                <p class="text-xs sm:text-sm font-medium text-gray-500">Total Cases</p>
+                <h2 id="total-cases" class="text-xl sm:text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-sky-600"></h2>
+            </div>
+            <div class="bg-gray-50 p-4 md:p-6 rounded-xl shadow-md border border-gray-200">
+                <p class="text-xs sm:text-sm font-medium text-gray-500">Total Hospitalized</p>
+                <h2 id="total-hospitalized" class="text-xl sm:text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-red-600"></h2>
+            </div>
+            <div class="bg-gray-50 p-4 md:p-6 rounded-xl shadow-md border border-gray-200">
+                <p class="text-xs sm:text-sm font-medium text-gray-500">Total Recovered</p>
+                <h2 id="total-recovered" class="text-xl sm:text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-green-600"></h2>
+            </div>
+            <div class="bg-gray-50 p-4 md:p-6 rounded-xl shadow-md border border-gray-200">
+                <p class="text-xs sm:text-sm font-medium text-gray-500">Fatality Rate</p>
+                <h2 id="fatality-rate" class="text-xl sm:text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-slate-600"></h2>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+            <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg border border-gray-200 h-96">
+                <h3 class="text-base sm:text-lg font-semibold mb-2 md:mb-4 text-gray-800">Daily New Cases Over Time</h3>
+                <canvas id="daily-cases-chart"></canvas>
+            </div>
+            <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg border border-gray-200 h-96">
+                <h3 class="text-base sm:text-lg font-semibold mb-2 md:mb-4 text-gray-800">Case Outcomes by Age Group</h3>
+                <canvas id="outcome-chart"></canvas>
+            </div>
+            <div class="lg:col-span-2 bg-white p-4 md:p-6 rounded-xl shadow-lg border border-gray-200 h-96">
+                <h3 class="text-base sm:text-lg font-semibold mb-2 md:mb-4 text-gray-800">Hospitalizations vs. Recoveries Over Time</h3>
+                <canvas id="time-series-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data Generation
+        const ageGroups = ['0-19', '20-39', '40-59', '60-79', '80+'];
+        const outcomes = ['Recovered', 'Hospitalized', 'Deceased'];
+        const numCases = 200;
+        const startDate = new Date('2019-01-01');
+        const endDate = new Date('2022-12-31');
+        const caseData = [];
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomDate(start, end) {
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+        }
+
+        for (let i = 1; i <= numCases; i++) {
+            const ageGroup = ageGroups[getRandomInt(0, ageGroups.length - 1)];
+            let outcome = outcomes[0]; // Default to Recovered
+            let cost = getRandomInt(100, 500); // Cost of outpatient care
+
+            if (Math.random() > 0.8) { // 20% hospitalized
+                outcome = outcomes[1];
+                cost = getRandomInt(5000, 25000);
+            }
+            if (Math.random() > 0.95) { // 5% deceased
+                outcome = outcomes[2];
+                cost = 0; // Or can be a high value, for this example we set it to 0
+            }
+
+            // Adjust outcome for older age groups
+            if (ageGroup === '80+' && Math.random() > 0.5) {
+                outcome = outcomes[1]; // Higher hospitalization rate
+            }
+            if (ageGroup === '80+' && Math.random() > 0.7) {
+                 outcome = outcomes[2]; // Higher fatality rate
+            }
+
+            caseData.push({
+                caseId: `C${i}`,
+                ageGroup: ageGroup,
+                outcome: outcome,
+                cost: cost,
+                date: getRandomDate(startDate, endDate).toISOString().split('T')[0],
+            });
+        }
+
+        // Dashboard Logic
+        const dateFilter = document.getElementById('date-filter');
+        const ageGroupFilter = document.getElementById('age-group-filter');
+        const outcomeFilter = document.getElementById('outcome-filter');
+
+        const totalCasesEl = document.getElementById('total-cases');
+        const totalHospitalizedEl = document.getElementById('total-hospitalized');
+        const totalRecoveredEl = document.getElementById('total-recovered');
+        const fatalityRateEl = document.getElementById('fatality-rate');
+
+        const dailyCasesCtx = document.getElementById('daily-cases-chart').getContext('2d');
+        const outcomeCtx = document.getElementById('outcome-chart').getContext('2d');
+        const timeSeriesCtx = document.getElementById('time-series-chart').getContext('2d');
+
+        let dailyCasesChart, outcomeChart, timeSeriesChart;
+
+        function updateDashboard(data) {
+            // Calculate Key Metrics
+            const totalCases = data.length;
+            const totalHospitalized = data.filter(d => d.outcome === 'Hospitalized').length;
+            const totalRecovered = data.filter(d => d.outcome === 'Recovered').length;
+            const totalDeceased = data.filter(d => d.outcome === 'Deceased').length;
+            const fatalityRate = (totalDeceased / totalCases) * 100;
+
+            totalCasesEl.textContent = totalCases.toLocaleString();
+            totalHospitalizedEl.textContent = totalHospitalized.toLocaleString();
+            totalRecoveredEl.textContent = totalRecovered.toLocaleString();
+            fatalityRateEl.textContent = `${fatalityRate.toFixed(2)}%`;
+
+            // Data for Charts
+            const dailyCases = {};
+            const outcomeCounts = {};
+            const timeSeriesData = {};
+
+            data.forEach(d => {
+                const date = d.date;
+                dailyCases[date] = (dailyCases[date] || 0) + 1;
+                outcomeCounts[d.ageGroup] = outcomeCounts[d.ageGroup] || { 'Recovered': 0, 'Hospitalized': 0, 'Deceased': 0 };
+                outcomeCounts[d.ageGroup][d.outcome]++;
+
+                const month = date.substring(0, 7);
+                timeSeriesData[month] = timeSeriesData[month] || { 'hospitalized': 0, 'recovered': 0 };
+                if (d.outcome === 'Hospitalized') {
+                    timeSeriesData[month].hospitalized++;
+                } else if (d.outcome === 'Recovered') {
+                    timeSeriesData[month].recovered++;
+                }
+            });
+
+            // Update Daily Cases Chart
+            if (dailyCasesChart) dailyCasesChart.destroy();
+            dailyCasesChart = new Chart(dailyCasesCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(dailyCases).sort(),
+                    datasets: [{
+                        label: 'New Cases',
+                        data: Object.keys(dailyCases).sort().map(date => dailyCases[date]),
+                        backgroundColor: '#0ea5e9',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Update Outcome Chart
+            if (outcomeChart) outcomeChart.destroy();
+            outcomeChart = new Chart(outcomeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ageGroups,
+                    datasets: [
+                        {
+                            label: 'Recovered',
+                            data: ageGroups.map(age => outcomeCounts[age]?.Recovered || 0),
+                            backgroundColor: '#16a34a'
+                        },
+                        {
+                            label: 'Hospitalized',
+                            data: ageGroups.map(age => outcomeCounts[age]?.Hospitalized || 0),
+                            backgroundColor: '#dc2626'
+                        },
+                        {
+                            label: 'Deceased',
+                            data: ageGroups.map(age => outcomeCounts[age]?.Deceased || 0),
+                            backgroundColor: '#374151'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true }
+                    }
+                }
+            });
+
+            // Update Time Series Chart
+            if (timeSeriesChart) timeSeriesChart.destroy();
+            const sortedMonths = Object.keys(timeSeriesData).sort();
+            timeSeriesChart = new Chart(timeSeriesCtx, {
+                type: 'line',
+                data: {
+                    labels: sortedMonths,
+                    datasets: [
+                        {
+                            label: 'Hospitalizations',
+                            data: sortedMonths.map(month => timeSeriesData[month].hospitalized),
+                            borderColor: '#dc2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.2)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Recoveries',
+                            data: sortedMonths.map(month => timeSeriesData[month].recovered),
+                            borderColor: '#16a34a',
+                            backgroundColor: 'rgba(22, 163, 74, 0.2)',
+                            fill: true,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function populateFilters() {
+            const allAgeGroups = new Set(caseData.map(d => d.ageGroup));
+            const allOutcomes = new Set(caseData.map(d => d.outcome));
+            const allDates = new Set(caseData.map(d => d.date.substring(0, 7)));
+
+            allAgeGroups.forEach(group => {
+                const opt = document.createElement('option');
+                opt.value = group;
+                opt.textContent = group;
+                ageGroupFilter.appendChild(opt);
+            });
+
+            allOutcomes.forEach(outcome => {
+                const opt = document.createElement('option');
+                opt.value = outcome;
+                opt.textContent = outcome;
+                outcomeFilter.appendChild(opt);
+            });
+
+            Array.from(allDates).sort().forEach(date => {
+                const opt = document.createElement('option');
+                opt.value = date;
+                opt.textContent = date;
+                dateFilter.appendChild(opt);
+            });
+        }
+
+        function applyFilters() {
+            const selectedDate = dateFilter.value;
+            const selectedAgeGroup = ageGroupFilter.value;
+            const selectedOutcome = outcomeFilter.value;
+
+            const filteredData = caseData.filter(d => {
+                const dateMatch = selectedDate === 'all' || d.date.substring(0, 7) === selectedDate;
+                const ageGroupMatch = selectedAgeGroup === 'all' || d.ageGroup === selectedAgeGroup;
+                const outcomeMatch = selectedOutcome === 'all' || d.outcome === selectedOutcome;
+                return dateMatch && ageGroupMatch && outcomeMatch;
+            });
+            updateDashboard(filteredData);
+        }
+
+        window.onload = function() {
+            populateFilters();
+            applyFilters();
+
+            dateFilter.addEventListener('change', applyFilters);
+            ageGroupFilter.addEventListener('change', applyFilters);
+            outcomeFilter.addEventListener('change', applyFilters);
+        }
+    </script>
+
+</body>
+</html>

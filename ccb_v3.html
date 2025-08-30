@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Costing Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl p-4 sm:p-6 md:p-8">
+        <header class="mb-6 md:mb-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">Cabrini Health Clinical Costing Dashboard</h1>
+            <p class="text-gray-500 text-sm sm:text-base mt-2">Sample data for portfolio purposes to demonstrate dashboard design and development skills.</p>
+        </header>
+
+        <!-- Filters Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 md:mb-8">
+            <div class="flex flex-col">
+                <label for="department-filter" class="text-xs sm:text-sm font-medium text-gray-700 mb-1">Filter by Department</label>
+                <select id="department-filter" class="p-2 md:p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="all">All Departments</option>
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label for="procedure-filter" class="text-xs sm:text-sm font-medium text-gray-700 mb-1">Filter by Procedure</label>
+                <select id="procedure-filter" class="p-2 md:p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="all">All Procedures</option>
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label for="month-filter" class="text-xs sm:text-sm font-medium text-gray-700 mb-1">Filter by Month</label>
+                <select id="month-filter" class="p-2 md:p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="all">All Months</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Key Metrics Section -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 md:mb-8">
+            <div class="bg-gray-50 p-4 md:p-6 rounded-xl shadow-md border border-gray-200">
+                <p class="text-xs sm:text-sm font-medium text-gray-500">Total Patients</p>
+                <h2 id="total-patients" class="text-xl sm:text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-blue-600"></h2>
+            </div>
+            <div class="bg-gray-50 p-4 md:p-6 rounded-xl shadow-md border border-gray-200">
+                <p class="text-xs sm:text-sm font-medium text-gray-500">Total Clinical Costs</p>
+                <h2 id="total-costs" class="text-xl sm:text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-green-600"></h2>
+            </div>
+            <div class="bg-gray-50 p-4 md:p-6 rounded-xl shadow-md border border-gray-200">
+                <p class="text-xs sm:text-sm font-medium text-gray-500">Avg. Cost per Patient</p>
+                <h2 id="avg-cost" class="text-xl sm:text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-yellow-600"></h2>
+            </div>
+            <div class="bg-gray-50 p-4 md:p-6 rounded-xl shadow-md border border-gray-200">
+                <p class="text-xs sm:text-sm font-medium text-gray-500">Avg. Length of Stay</p>
+                <h2 id="avg-los" class="text-xl sm:text-2xl md:text-3xl font-bold mt-1 md:mt-2 text-red-600"></h2>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+            <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg border border-gray-200 h-96">
+                <h3 class="text-base sm:text-lg font-semibold mb-2 md:mb-4 text-gray-800">Total Costs by Department</h3>
+                <canvas id="department-costs-chart"></canvas>
+            </div>
+            <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg border border-gray-200 h-96">
+                <h3 class="text-base sm:text-lg font-semibold mb-2 md:mb-4 text-gray-800">Cost Distribution by Procedure</h3>
+                <canvas id="procedure-costs-chart"></canvas>
+            </div>
+            <div class="lg:col-span-2 bg-white p-4 md:p-6 rounded-xl shadow-lg border border-gray-200 h-96">
+                <h3 class="text-base sm:text-lg font-semibold mb-2 md:mb-4 text-gray-800">Total Costs Over Time</h3>
+                <canvas id="monthly-costs-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data Generation
+        const departments = ['Cardiology', 'Oncology', 'Neurology', 'Orthopedics', 'General Surgery'];
+        const procedures = ['Consultation', 'MRI Scan', 'Chemotherapy', 'Heart Surgery', 'Knee Replacement', 'Appendectomy'];
+        const numPatients = 100;
+        const startDate = new Date('2024-01-01');
+        const endDate = new Date('2024-12-31');
+        const patientData = [];
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomDate(start, end) {
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+        }
+
+        for (let i = 1; i <= numPatients; i++) {
+            const department = departments[getRandomInt(0, departments.length - 1)];
+            const procedure = procedures[getRandomInt(0, procedures.length - 1)];
+            const visitDate = getRandomDate(startDate, endDate);
+            let baseCost = 0;
+            let lengthOfStay = 0;
+
+            switch (procedure) {
+                case 'Consultation':
+                    baseCost = getRandomInt(100, 300);
+                    lengthOfStay = 0;
+                    break;
+                case 'MRI Scan':
+                    baseCost = getRandomInt(800, 1500);
+                    lengthOfStay = 0;
+                    break;
+                case 'Chemotherapy':
+                    baseCost = getRandomInt(5000, 15000);
+                    lengthOfStay = getRandomInt(1, 5);
+                    break;
+                case 'Heart Surgery':
+                    baseCost = getRandomInt(20000, 50000);
+                    lengthOfStay = getRandomInt(5, 15);
+                    break;
+                case 'Knee Replacement':
+                    baseCost = getRandomInt(15000, 30000);
+                    lengthOfStay = getRandomInt(3, 7);
+                    break;
+                case 'Appendectomy':
+                    baseCost = getRandomInt(5000, 8000);
+                    lengthOfStay = getRandomInt(1, 3);
+                    break;
+                default:
+                    baseCost = getRandomInt(100, 1000);
+                    lengthOfStay = getRandomInt(0, 10);
+            }
+
+            patientData.push({
+                patientId: `P${i}`,
+                department: department,
+                procedure: procedure,
+                cost: baseCost,
+                date: visitDate.toISOString().split('T')[0],
+                lengthOfStay: lengthOfStay
+            });
+        }
+
+        // Dashboard Logic
+        const departmentFilter = document.getElementById('department-filter');
+        const procedureFilter = document.getElementById('procedure-filter');
+        const monthFilter = document.getElementById('month-filter');
+
+        const totalPatientsEl = document.getElementById('total-patients');
+        const totalCostsEl = document.getElementById('total-costs');
+        const avgCostEl = document.getElementById('avg-cost');
+        const avgLosEl = document.getElementById('avg-los');
+
+        const departmentCostsCtx = document.getElementById('department-costs-chart').getContext('2d');
+        const procedureCostsCtx = document.getElementById('procedure-costs-chart').getContext('2d');
+        const monthlyCostsCtx = document.getElementById('monthly-costs-chart').getContext('2d');
+
+        let departmentCostsChart, procedureCostsChart, monthlyCostsChart;
+
+        function updateDashboard(data) {
+            // Calculate Key Metrics
+            const totalPatients = data.length;
+            const totalCosts = data.reduce((sum, d) => sum + d.cost, 0);
+            const avgCost = totalCosts / totalPatients;
+            const totalLos = data.reduce((sum, d) => sum + d.lengthOfStay, 0);
+            const avgLos = totalLos / totalPatients;
+
+            totalPatientsEl.textContent = totalPatients.toLocaleString();
+            totalCostsEl.textContent = `$${totalCosts.toLocaleString()}`;
+            avgCostEl.textContent = `$${avgCost.toFixed(2)}`;
+            avgLosEl.textContent = `${avgLos.toFixed(1)} days`;
+
+            // Data for Charts
+            const departmentCosts = {};
+            const procedureCosts = {};
+            const monthlyCosts = {};
+
+            data.forEach(d => {
+                const month = d.date.substring(0, 7);
+                departmentCosts[d.department] = (departmentCosts[d.department] || 0) + d.cost;
+                procedureCosts[d.procedure] = (procedureCosts[d.procedure] || 0) + d.cost;
+                monthlyCosts[month] = (monthlyCosts[month] || 0) + d.cost;
+            });
+
+            // Update Charts
+            if (departmentCostsChart) departmentCostsChart.destroy();
+            departmentCostsChart = new Chart(departmentCostsCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(departmentCosts),
+                    datasets: [{
+                        label: 'Total Costs ($)',
+                        data: Object.values(departmentCosts),
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#6366f1'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            if (procedureCostsChart) procedureCostsChart.destroy();
+            procedureCostsChart = new Chart(procedureCostsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(procedureCosts),
+                    datasets: [{
+                        label: 'Cost Distribution',
+                        data: Object.values(procedureCosts),
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#6366f1', '#a855f7'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right' }
+                    }
+                }
+            });
+
+            if (monthlyCostsChart) monthlyCostsChart.destroy();
+            const sortedMonths = Object.keys(monthlyCosts).sort();
+            monthlyCostsChart = new Chart(monthlyCostsCtx, {
+                type: 'line',
+                data: {
+                    labels: sortedMonths,
+                    datasets: [{
+                        label: 'Total Costs ($)',
+                        data: sortedMonths.map(month => monthlyCosts[month]),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function populateFilters() {
+            const allDepartments = new Set(patientData.map(d => d.department));
+            const allProcedures = new Set(patientData.map(d => d.procedure));
+            const allMonths = new Set(patientData.map(d => d.date.substring(0, 7)));
+
+            allDepartments.forEach(dep => {
+                const opt = document.createElement('option');
+                opt.value = dep;
+                opt.textContent = dep;
+                departmentFilter.appendChild(opt);
+            });
+
+            allProcedures.forEach(proc => {
+                const opt = document.createElement('option');
+                opt.value = proc;
+                opt.textContent = proc;
+                procedureFilter.appendChild(opt);
+            });
+
+            Array.from(allMonths).sort().forEach(month => {
+                const opt = document.createElement('option');
+                opt.value = month;
+                opt.textContent = month;
+                monthFilter.appendChild(opt);
+            });
+        }
+
+        function applyFilters() {
+            const selectedDepartment = departmentFilter.value;
+            const selectedProcedure = procedureFilter.value;
+            const selectedMonth = monthFilter.value;
+
+            const filteredData = patientData.filter(d => {
+                const month = d.date.substring(0, 7);
+                const departmentMatch = selectedDepartment === 'all' || d.department === selectedDepartment;
+                const procedureMatch = selectedProcedure === 'all' || d.procedure === selectedProcedure;
+                const monthMatch = selectedMonth === 'all' || month === selectedMonth;
+                return departmentMatch && procedureMatch && monthMatch;
+            });
+            updateDashboard(filteredData);
+        }
+
+        window.onload = function() {
+            populateFilters();
+            applyFilters();
+
+            departmentFilter.addEventListener('change', applyFilters);
+            procedureFilter.addEventListener('change', applyFilters);
+            monthFilter.addEventListener('change', applyFilters);
+        }
+    </script>
+
+</body>
+</html>
