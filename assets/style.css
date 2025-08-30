@@ -199,3 +199,85 @@ footer{
   .container{ padding:0 16px; }
   .logo-img{ max-width:84px; }
 }
+
+/* =========================================================
+   Compat layer for the new index.html (drawer + grids)
+   Keeps your existing look & feel, adds missing selectors.
+   =======================================================*/
+
+/* Header (keeps menu left, logo right) */
+.site-header{
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(11,11,11,.85);
+  backdrop-filter: saturate(180%) blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.nav{ display:flex; align-items:center; justify-content:flex-start; gap:16px; padding:12px 0; }
+.menu-btn{
+  display:none; cursor:pointer; padding:8px 12px;
+  border:1px solid var(--border); border-radius:8px; color:var(--text); background:transparent;
+}
+.logo{ display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none; margin-left:auto; }
+.logo img{ height:48px; width:auto; display:block; } /* respects your logo sizing */
+
+/* Show inline nav on desktop; mobile uses drawer */
+.navlinks{ display:flex; flex-wrap:wrap; gap:14px; }
+.navlinks a{ color:var(--text); padding:8px 10px; border-radius:8px; }
+.navlinks a:hover{ background:#1a1a1a; }
+@media (max-width:880px){
+  .menu-btn{ display:inline-flex; align-items:center; gap:.5rem; }
+  .navlinks{ display:none; }
+}
+
+/* Buttons to match your palette */
+.btn{ display:inline-block; padding:10px 18px; border-radius:8px; border:1px solid transparent;
+      transition:transform .2s ease, background .2s ease, box-shadow .2s ease; }
+.btn-primary{ background:var(--brand); color:#fff; }
+.btn-primary:hover{ background:var(--brand-dk); transform:translateY(-2px); }
+.btn-outline{ background:transparent; border:1px solid var(--border); color:var(--text); }
+.btn-outline:hover{ background:#1a1a1a; }
+
+/* Hero details */
+.pill{ display:inline-block; font-size:.85rem; color:var(--muted);
+       background:#0f0f0f; border:1px solid var(--border); padding:.28rem .6rem; border-radius:999px; margin-bottom:.6rem; }
+.lead{ color:var(--muted); max-width:65ch; }
+.badges{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; opacity:.9; }
+.badges img{ height:28px; width:auto; }
+
+/* Cards & grids used on Services/Work */
+.cards{ display:grid; gap:20px; }
+@media (min-width:600px){ .cards{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (min-width:992px){ .cards{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
+.card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; }
+
+.workgrid{ display:grid; gap:20px; }
+@media (min-width:600px){ .workgrid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (min-width:992px){ .workgrid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
+.work{ border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface); }
+.work .meta{ padding:16px; }
+.work h4{ margin:0 0 6px; font-size:1rem; }
+.work p{ margin:0; color:var(--muted); }
+
+/* Contact form (align with your existing inputs) */
+.contact{ display:grid; gap:20px; }
+@media (min-width:768px){ .contact{ grid-template-columns:1.2fr .8fr; } }
+.form{ display:grid; gap:12px; }
+.form input, .form textarea{ width:100%; padding:12px 14px; background:#0f0f0f; border:1px solid var(--border); border-radius:8px; color:var(--text); }
+
+/* Left slide-in drawer menu */
+.backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.45);
+  opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:55;
+}
+.backdrop.show{ opacity:1; pointer-events:auto; }
+.drawer{
+  position:fixed; top:0; left:0; height:100dvh; width:min(88vw, 320px);
+  background:var(--surface); border-right:1px solid var(--border);
+  transform:translateX(-100%); transition:transform .25s ease; z-index:56; display:flex; flex-direction:column;
+}
+.drawer.open{ transform:translateX(0); }
+.drawer header{ display:flex; align-items:center; justify-content:space-between; padding:1rem; border-bottom:1px solid var(--border); }
+.drawer nav{ display:flex; flex-direction:column; padding:.5rem; }
+.drawer a{ padding:.9rem 1rem; border-radius:8px; color:var(--text); }
+.drawer a:hover, .drawer a:focus{ background:#1a1a1a; }
+@media (min-width:881px){ .backdrop, .drawer{ display:none; } }
