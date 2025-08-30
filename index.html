@@ -1,206 +1,268 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SDK Associates | ICT Consulting – Business Analysis, Project & Product Management</title>
-  <meta name="description" content="SDK Associates is an ICT consulting firm specialising in Business Analysis, Project Management, and Product Management. We help organisations design, deliver, and scale digital products." />
-  <meta property="og:title" content="SDK Associates" />
-  <meta property="og:description" content="ICT consulting – Business Analysis, Project & Product Management" />
-  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0a0f14">
+  <title>SDK Associates | ICT Consulting</title>
+  <meta name="description" content="Business analysis, product & delivery that actually ships. Discovery to change. Power BI, PRINCE2 Agile, PMBOK." />
   <meta property="og:image" content="assets/sdkassociates_logo.png" />
-  <meta name="theme-color" content="#00bcd4" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#0b0b0b; --ink:#e6f6f9; --muted:#a6c6cd; --brand:#05b8da; --card:#111; --line:#1f2a2e; }
+    :root{
+      --container: 1200px;
+      --space-1:.5rem; --space-2:1rem; --space-3:1.5rem; --space-4:2rem;
+      --bg:#070b0f; --bg-soft:#0a0f14; --card:#0e151c; --text:#eaf2f7; --muted:#a6b5c2;
+      --accent:#29b2ff; --line:#1e2a33;
+    }
+    html{scroll-behavior:smooth}
+    body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--text); background:var(--bg); line-height:1.6; font-size:16px}
+    @media (min-width:600px){ body{font-size:17px} }
+    @media (min-width:992px){ body{font-size:18px} }
+    @media (min-width:1400px){ body{font-size:19px} }
+
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);}
-    a{color:var(--brand);text-decoration:none}
-    img{max-width:100%;display:block}
-    .container{width:min(1100px,92vw);margin-inline:auto}
-    .btn{display:inline-block;padding:.9rem 1.2rem;border-radius:16px;background:var(--brand);color:#031417;font-weight:700;box-shadow:0 10px 30px rgba(5,184,218,.25);transition:transform .1s ease}
-    .btn:hover{transform:translateY(-2px)}
-    header{position:sticky;top:0;background:rgba(11,11,11,.75);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:20}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
-    .nav .logo{display:flex;gap:.75rem;align-items:center}
-    .nav .logo img{width:40px;height:40px}
-    .nav a{color:var(--ink);opacity:.9;margin-left:1.25rem}
-    .nav a:hover{opacity:1}
-    .hero{position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:-40% -20% auto -20%;height:120%;background:radial-gradient(60% 60% at 50% 20%,rgba(5,184,218,.25),rgba(5,184,218,0) 60%)}
-    .hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:2rem;align-items:center;padding:6rem 0 4rem}
-    .tag{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:999px;padding:.35rem .7rem;color:var(--muted);font-size:.85rem}
-    h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.05;margin:1rem 0}
-    .lead{font-size:1.1rem;color:var(--muted);max-width:52ch}
-    .hero-card{background:linear-gradient(180deg,#0d0f10,#0b0b0b);border:1px solid var(--line);border-radius:24px;padding:2rem}
-    .hero-card .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
-    .pill{border:1px solid var(--line);border-radius:14px;padding:1rem}
-    section{padding:4rem 0;border-top:1px solid var(--line)}
-    h2{font-size:clamp(1.6rem,3vw,2.2rem);margin:.2rem 0 1rem}
-    .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.5rem}
-    .card h3{margin:.2rem 0 .5rem;font-size:1.2rem}
-    .small{color:var(--muted);font-size:.95rem}
-    .kpi{display:flex;gap:1rem;margin-top:1rem}
-    .kpi div{background:#0e1214;border:1px solid var(--line);padding:1rem;border-radius:14px;min-width:140px}
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
-    .footer{padding:2rem 0;color:var(--muted)}
-    .footer a{color:var(--muted)}
-    .logo-mark{width:110px;height:auto;filter:drop-shadow(0 6px 20px rgba(5,184,218,.25))}
-    @media (max-width:1000px){.hero-inner{grid-template-columns:1fr}.three,.grid-2,.hero-card .grid{grid-template-columns:1fr}}
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; height:auto; display:block}
+    .container{width:min(100% - 2rem, var(--container)); margin-inline:auto}
+    h1,h2,h3{line-height:1.15; margin:0 0 var(--space-2)}
+    p{margin:0 0 var(--space-2)}
+    .maxch{max-width:65ch}
+
+    .section{padding-block:1.6rem}
+    @media (min-width:768px){ .section{padding-block:2rem} }
+    @media (min-width:992px){ .section{padding-block:2.5rem} }
+
+    /* Header */
+    .site-header{position:sticky; top:0; z-index:60; background:rgba(7,11,15,.78); backdrop-filter:blur(6px); border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex; align-items:center; justify-content:flex-start; gap:1rem}
+    .menu-btn{display:none}
+    .logo{display:flex; align-items:center; gap:.6rem; font-weight:700; margin-left:auto}
+    .logo img{height:28px; width:auto}
+    .navlinks{display:flex; align-items:center; gap:1rem}
+    .navlinks a{padding:.5rem .25rem; margin-inline:.2rem; opacity:.95}
+    @media (max-width:880px){ .navlinks{display:none} .menu-btn{display:inline-flex; align-items:center; gap:.5rem; padding:.6rem .8rem; border:1px solid var(--line); border-radius:10px; background:transparent; color:var(--text)} }
+
+    .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1.05rem; border-radius:12px; font-weight:600; border:1px solid transparent; cursor:pointer}
+    .btn-primary{background:var(--accent); color:#001420}
+    .btn-outline{border-color:var(--line)}
+
+    .hero{display:grid; align-items:center; min-height:46vh; padding-block:2rem; background:radial-gradient(120% 120% at 10% 0%, #0b1c24 0%, #0a0f14 70%, #090d11 100%)}
+    @media (min-width:992px){ .hero{grid-template-columns:1.1fr .9fr; gap:var(--space-4); min-height:55vh; padding-block:2.5rem} }
+
+    .pill{display:inline-block; font-size:.82rem; color:#b9c7d3; background:#0f1820; border:1px solid var(--line); padding:.28rem .6rem; border-radius:999px; margin-bottom:.7rem}
+    .hero h1{font-size:clamp(1.8rem, 3.1vw + 1rem, 3rem)}
+    .lead{max-width:58ch; color:var(--muted)}
+    .cta-row{display:flex; gap:var(--space-2); flex-wrap:wrap; margin-top:var(--space-2)}
+    .badges{display:flex; gap:var(--space-3); flex-wrap:wrap; align-items:center; margin-top:var(--space-3); opacity:.9}
+
+    .cards{display:grid; gap:var(--space-3)}
+    @media (min-width:600px){ .cards{grid-template-columns:repeat(2,1fr)} }
+    @media (min-width:992px){ .cards{grid-template-columns:repeat(3,1fr)} }
+    .card{padding:var(--space-3); border:1px solid var(--line); background:var(--card); border-radius:14px}
+
+    .workgrid{display:grid; gap:var(--space-3)}
+    @media (min-width:600px){ .workgrid{grid-template-columns:repeat(2,1fr)} }
+    @media (min-width:992px){ .workgrid{grid-template-columns:repeat(3,1fr)} }
+    .work{border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#0d141b}
+    .work .meta{padding:1rem}
+
+    .contact{display:grid; gap:var(--space-3)}
+    @media (min-width:768px){ .contact{grid-template-columns:1.2fr .8fr} }
+    .form{display:grid; gap:.9rem}
+    .form input,.form textarea{width:100%; padding:.9rem 1rem; border-radius:10px; background:#0f1720; border:1px solid var(--line); color:var(--text)}
+
+    footer{border-top:1px solid rgba(255,255,255,.06); padding:1.2rem 0; color:#9bb0bf}
+
+    /* Drawer (left slide-in) */
+    .backdrop{position:fixed; inset:0; background:rgba(0,0,0,.45); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:55}
+    .backdrop.show{opacity:1; pointer-events:auto}
+    .drawer{position:fixed; top:0; left:0; height:100dvh; width:min(88vw, 320px); background:var(--bg-soft); border-right:1px solid var(--line); transform:translateX(-100%); transition:transform .25s ease; z-index:56; display:flex; flex-direction:column}
+    .drawer.open{transform:translateX(0)}
+    .drawer header{display:flex; align-items:center; justify-content:space-between; padding:1rem; border-bottom:1px solid var(--line)}
+    .drawer nav{display:flex; flex-direction:column; padding:.5rem}
+    .drawer a{padding:.9rem 1rem; border-radius:10px}
+    .drawer a:hover,.drawer a:focus{background:#0f1720}
+    @media (min-width:881px){ .backdrop,.drawer{display:none} }
   </style>
 </head>
 <body>
-  <header>
+  <div class="backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Mobile navigation">
+    <header>
+      <strong>Menu</strong>
+      <button id="closeDrawer" class="btn btn-outline" style="padding:.4rem .7rem">Close</button>
+    </header>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </aside>
+
+  <header class="site-header">
     <div class="container nav">
-      <div class="logo">
-        <!-- Replace assets/logo.png with your actual logo file path -->
-       <a href="index.html"> 
-        <img src="assets/sdkassociates_logo.png" alt="SDK Associates Logo" class="logo-img" />
-        <strong>sdk<span style="color:var(--brand)">associates</span></strong>
-       </a>  
-      </div>
-      <nav>
-         <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#contact">Contact</a>
+      <button class="menu-btn" aria-expanded="false" aria-controls="drawer" id="menubtn">☰ Menu</button>
+      <nav aria-label="Primary">
+        <div class="navlinks" id="navlinks">
+          <a href="#home">Home</a>
+          <a href="#services">Services</a>
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
       </nav>
+      <a class="logo" href="#home" aria-label="SDK Associates home">
+        <img src="assets/sdkassociates_logo.png" alt="SDK Associates" width="112" height="112" />
+        <span>sdk<strong>associates</strong></span>
+      </a>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-inner">
-        <div>
-          <span class="tag">ICT Consulting • Australia</span>
-          <h1>Business Analysis, Project & Product Management that actually ships.</h1>
-          <p class="lead">We help organisations turn ideas into reliable, user‑centred digital products. From early discovery to delivery and change, SDK Associates partners with you to reduce risk and lift outcomes.</p>
-          <div style="margin-top:1.2rem;display:flex;gap:.8rem;flex-wrap:wrap">
-            <a class="btn" href="#contact">Book a chat</a>
-            <a class="btn" style="background:#0e1214;color:var(--ink);border:1px solid var(--line)" href="#work">See recent work</a>
-           </div>
-          <div class="kpi">
-            <div><div style="font-weight:800;font-size:1.6rem">10+ yrs</div><div class="small">delivery experience</div></div>
-            <div><div style="font-weight:800;font-size:1.6rem">Gov & Private</div><div class="small">sector expertise</div></div>
-          </div>
+  <!-- Hero -->
+  <main id="home" class="hero section">
+    <div class="container" style="display:contents">
+      <div>
+        <span class="pill">ICT Consulting • Australia</span>
+        <h1>Business Analysis, Product & Delivery that actually ships.</h1>
+        <p class="lead">From discovery to change, SDK Associates reduces risk and lifts outcomes across data, product and delivery. PRINCE2 Agile • PL-300 • PMBOK.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">Book a 20-min consult</a>
+          <a class="btn btn-outline" href="#work">See recent work</a>
         </div>
-        <div class="hero-card">
-          <img class="logo-mark" src="assets/sdkassociates_logo.png" alt="SDK Associates"/>
-          <p class="small" style="margin:.8rem 0 1.2rem">Trusted partner for BA, PM & Product leadership.</p>
-          <div class="grid">
-            <div class="pill">
-              <strong>Business Analysis</strong>
-              <p class="small">Discovery, process mapping, requirements, acceptance criteria, UAT.</p>
-            </div>
-            <div class="pill">
-              <strong>Project Management</strong>
-              <p class="small">Hybrid delivery, risk/issue control, governance, vendor management.</p>
-            </div>
-            <div class="pill">
-              <strong>Product Management</strong>
-              <p class="small">Roadmaps, OKRs, discovery-to-delivery, value measurement.</p>
-            </div>
-            <div class="pill">
-              <strong>Training & Coaching</strong>
-              <p class="small">Upskill teams in agile ways of working and requirements quality.</p>
-            </div>
-          </div>
+        <div class="badges" aria-label="Proof and badges">
+          <img src="assets/trusted-1.svg" alt="Client 1" />
+          <img src="assets/trusted-2.svg" alt="Client 2" />
+          <span class="muted">95% on-time delivery • 12+ yrs</span>
         </div>
       </div>
-    </section>
-
-    <section id="services">
-      <div class="container">
-        <h2>What we do</h2>
-        <div class="three">
-          <div class="card">
-            <h3>Business Analysis</h3>
-            <p class="small">Stakeholder discovery, current/future state, user stories, process models, data mapping, backlog management, test scenarios, and benefits tracking.</p>
-          </div>
-          <div class="card">
-            <h3>Project Management</h3>
-            <p class="small">Project initiation & planning, RAID, budget & schedule control, vendor management, governance reporting, and implementation readiness.</p>
-          </div>
-          <div class="card">
-            <h3>Product Management</h3>
-            <p class="small">Vision and strategy, outcome‑driven roadmaps, prioritisation, MVP design, experiment design, analytics and continuous improvement.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="container grid-2">
-        <div>
-          <h2>About SDK Associates</h2>
-          <p class="small">We’re a Melbourne‑based ICT consulting firm. Our approach blends pragmatic delivery with strong stakeholder engagement and clear communication. We aim to leave teams better than we found them.</p>
-          <ul class="small">
-            <li>Hybrid methods (Agile + PRINCE2) and human‑centred design.</li>
-            <li>Experience across healthcare, education, construction, and government.</li>
-            <li>Transparent reporting and measurable outcomes.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3 style="margin-top:0">Why clients choose us</h3>
-          <ul class="small">
-            <li>Clear problem framing and prioritisation.</li>
-            <li>Right‑sized governance to avoid ceremony and waste.</li>
-            <li>Hands‑on delivery—no shelf‑ware documents.</li>
-            <li>Knowledge transfer so your team can sustain momentum.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="work">
-      <div class="container">
-        <h2>Selected work</h2>
-        <div class="three">
-          <div class="card">
-            <h3>Data integration uplift</h3>
-            <p class="small">Led requirements and delivery for a secure data pipeline, reducing manual handling by 60% and improving data quality.</p>
-          </div>
-          <div class="card">
-            <h3>Digital service redesign</h3>
-            <p class="small">Mapped end‑to‑end processes, redesigned service flows, and shipped an MVP that cut handling time by 35%.</p>
-          </div>
-          <div class="card">
-            <h3>Portfolio reporting</h3>
-            <p class="small">Implemented lightweight governance and dashboards for exec visibility across a multi‑vendor programme.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="container grid-2">
-        <div>
-          <h2>Let’s talk</h2>
-          <p class="small">Ready to improve delivery, reduce risk, and create value? Get in touch and we’ll set up a quick call.</p>
-          <p class="small"><strong>Email:</strong> <a href="mailto:contact@sdkassociates.com.au">contact@sdkassociates.com.au</a></p>
-          <p class="small"><strong>LinkedIn:</strong> <a href="#">linkedin.com/company/sdkassociates</a></p>
-        </div>
-        <div class="card">
-          <h3 style="margin-top:0">Acknowledgement of Country</h3>
-          <p class="small">We acknowledge the Traditional Owners of the lands on which we live and work, and pay our respects to Elders past and present.</p>
-        </div>
-      </div>
-    </section>
+      <figure aria-hidden="true">
+        <img src="assets/hero-visual.png" alt="" width="640" height="480" loading="eager" />
+      </figure>
+    </div>
   </main>
 
-  <footer class="footer">
-    <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-      <div class="small">© <span id="y"></span> SDK Associates. All rights reserved.</div>
-      <div class="small"><a href="#">Privacy</a> · <a href="#">Terms</a></div>
+  <!-- Services -->
+  <section id="services" class="section">
+    <div class="container">
+      <h2>What we do</h2>
+      <p class="maxch muted">Compact, outcome-focused services. No fluff, no sprawl—just the parts that move the needle.</p>
+      <div class="cards" style="margin-top:1rem">
+        <article class="card">
+          <h3>Business Analysis</h3>
+          <p>Discovery, process mapping, requirements, user stories & acceptance criteria. Facilitation and stakeholder alignment.</p>
+        </article>
+        <article class="card">
+          <h3>Product & Delivery</h3>
+          <p>Backlog, roadmaps, PRINCE2 Agile/PMBOK execution, risk control, change management and benefits tracking.</p>
+        </article>
+        <article class="card">
+          <h3>Data & Dashboards</h3>
+          <p>Power BI semantic models, operational metrics and exec reporting. From messy data to decisions.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section id="work" class="section">
+    <div class="container">
+      <h2>Selected work</h2>
+      <div class="workgrid" style="margin-top:1rem">
+        <article class="work">
+          <img src="assets/work-1.jpg" alt="Clinical costing dashboard preview" width="800" height="560"/>
+          <div class="meta">
+            <h4>Clinical Costing Dashboard</h4>
+            <p>Power BI model surfacing cost drivers and KPIs. Reduced report prep time by 60%.</p>
+          </div>
+        </article>
+        <article class="work">
+          <img src="assets/work-2.jpg" alt="Phishing simulation preview" width="800" height="560"/>
+          <div class="meta">
+            <h4>Cyber Phishing Simulation</h4>
+            <p>GoPhish + MailHog simulation with risk log & reporting aligned to PRINCE2 Agile.</p>
+          </div>
+        </article>
+        <article class="work">
+          <img src="assets/work-3.jpg" alt="Product delivery preview" width="800" height="560"/>
+          <div class="meta">
+            <h4>Product & Delivery Uplift</h4>
+            <p>Introduced backlog hygiene, acceptance criteria and cadence—cycle time down 30%.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2>About SDK Associates</h2>
+      <p class="maxch">We partner with teams to turn ideas into reliable, user-centred digital products. We combine strong analysis, pragmatic delivery, and clear communication to ship value—early and often.</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="container contact">
+      <div>
+        <h2>Let’s talk</h2>
+        <p class="muted maxch">Tell us about your project. We’ll reply within one business day.</p>
+        <form class="form" name="contact" method="post" data-netlify="true">
+          <input type="hidden" name="form-name" value="contact" />
+          <label class="sr-only" for="name">Name</label>
+          <input id="name" name="name" placeholder="Your name" required>
+          <label class="sr-only" for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required>
+          <label class="sr-only" for="msg">Message</label>
+          <textarea id="msg" name="message" rows="5" placeholder="How can we help?" required></textarea>
+          <button class="btn btn-primary" type="submit">Send message</button>
+        </form>
+      </div>
+      <aside class="card">
+        <h3>Quick links</h3>
+        <p class="muted">ABN, capability statement, and case studies available on request.</p>
+        <p style="margin-top:.6rem"><a class="btn btn-outline" href="#work">See work</a></p>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap">
+      <span class="muted">© <span id="y"></span> SDK Associates</span>
+      <a class="muted" href="#home">Back to top ↑</a>
     </div>
   </footer>
 
   <script>
+    const btn = document.getElementById('menubtn');
+    const drawer = document.getElementById('drawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+    const backdrop = document.getElementById('backdrop');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden','false');
+      backdrop.classList.add('show');
+      backdrop.hidden = false;
+      btn.setAttribute('aria-expanded','true');
+    }
+    function close(){
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden','true');
+      backdrop.classList.remove('show');
+      backdrop.hidden = true;
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    if(btn){ btn.addEventListener('click', openDrawer); }
+    if(closeDrawer){ closeDrawer.addEventListener('click', close); }
+    if(backdrop){ backdrop.addEventListener('click', close); }
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
 </body>
