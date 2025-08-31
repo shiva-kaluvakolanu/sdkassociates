@@ -281,3 +281,54 @@ footer{
 .drawer a{ padding:.9rem 1rem; border-radius:8px; color:var(--text); }
 .drawer a:hover, .drawer a:focus{ background:#1a1a1a; }
 @media (min-width:881px){ .backdrop, .drawer{ display:none; } }
+
+/* ---- Layout density tweaks ---- */
+
+/* 1) Let content breathe wider on desktop */
+:root{
+  --container: 1280px;     /* was ~1200; try 1280–1440 if you want even wider */
+}
+
+/* 2) Reduce top/bottom section padding a bit */
+.section{ padding-block: 1.25rem; }           /* default */
+@media (min-width: 768px){ .section{ padding-block: 1.75rem; } }
+@media (min-width: 992px){ .section{ padding-block: 2rem; } }  /* was 2.5rem+ */
+
+/* 3) Hero: use more width and less unused height */
+.hero{
+  min-height: 38vh;            /* was ~46–55vh; shorten the “tall empty” feel */
+  align-items: center; 
+}
+@media (min-width: 992px){
+  .hero{
+    grid-template-columns: 1.2fr 0.8fr;   /* give the text column more space */
+    gap: 2rem;
+    min-height: 48vh;
+  }
+}
+
+/* 4) Headline size & wrapping — slightly smaller on huge screens */
+.hero h1{
+  font-size: clamp(1.8rem, 2.4vw + 1rem, 2.6rem); /* was up to 3rem */
+  margin-bottom: .75rem;
+}
+.lead{ max-width: 72ch; }
+
+/* 5) Buttons/badges tighten up */
+.cta-row{ gap: .75rem; margin-top: .9rem; }
+.badges{ gap: 1.25rem; margin-top: 1rem; flex-wrap: wrap; }
+
+/* 6) Cards grid: show 3-up earlier so there’s less dead space */
+@media (min-width: 900px){ .cards{ grid-template-columns: repeat(3,1fr); } }
+
+/* 7) Work tiles: balanced aspect and less vertical padding */
+.work .meta{ padding: .85rem; }
+
+/* 8) Header spacing (nav) a bit tighter */
+.nav{ gap: .75rem; }
+.navlinks a{ padding: .4rem .25rem; }
+
+/* 9) Optional: slightly larger container on very big screens */
+@media (min-width: 1440px){
+  .container{ width: min(100% - 2rem, 1400px); }
+}
