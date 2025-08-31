@@ -4,7 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboards | SDK Associates</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    /* page-only polish (safe to keep here) */
+    .center-row{display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-top:1.25rem}
+    .page-intro{max-width:65ch; margin-inline:auto; color:var(--muted)}
+    .preview-grid{display:grid; gap:20px; margin-top:1.5rem}
+    @media (min-width:700px){ .preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    .preview-grid .work:hover{transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  </style>
 </head>
 <body>
   <!-- Backdrop + Drawer -->
@@ -19,7 +29,7 @@
       <a href="index.html#about">About</a>
       <a href="index.html#services">Services</a>
       <a href="index.html#work">Work</a>
-      <a href="dashboards.html">Dashboards</a>
+      <a href="/dashboards.html">Dashboards</a>
       <a href="index.html#contact">Contact</a>
     </nav>
   </aside>
@@ -34,7 +44,7 @@
           <a href="index.html#about">About</a>
           <a href="index.html#services">Services</a>
           <a href="index.html#work">Work</a>
-          <a href="dashboards.html">Dashboards</a>
+          <a href="/dashboards.html">Dashboards</a>
           <a href="index.html#contact">Contact</a>
         </div>
       </nav>
@@ -49,20 +59,39 @@
   <main class="section">
     <div class="container">
       <h1>Dashboards</h1>
-      <p class="maxch muted">Explore our published dashboards:</p>
+      <p class="page-intro">Explore our published dashboards. These open in a new tab.</p>
 
-      <div class="cta-row" style="margin-top:1rem">
-        <a class="btn btn-primary" href="../clinical-costing-dashboard.html" target="_blank" rel="noopener">
+      <!-- Buttons (centered) -->
+      <div class="center-row">
+        <a class="btn btn-primary" href="clinical-costing-dashboard.html" target="_blank" rel="noopener">
           Clinical Costing Dashboard
         </a>
-        <a class="btn btn-outline" href="../covid-19-positive-pathways-program.html" target="_blank" rel="noopener">
+        <a class="btn btn-outline" href="covid-19-positive-pathways-program.html" target="_blank" rel="noopener">
           COVID-19 Positive Pathways Program
+        </a>
+      </div>
+
+      <!-- Optional previews (clickable). Replace images later if you like -->
+      <div class="preview-grid">
+        <a class="work" href="clinical-costing-dashboard.html" target="_blank" rel="noopener">
+          <img src="assets/work-1.jpg" alt="Clinical costing dashboard preview" width="800" height="560" />
+          <div class="meta">
+            <h4>Clinical Costing Dashboard</h4>
+            <p>Power BI model surfacing cost drivers and KPIs. Reduced report prep time by 60%.</p>
+          </div>
+        </a>
+
+        <a class="work" href="covid-19-positive-pathways-program.html" target="_blank" rel="noopener">
+          <img src="assets/work-2.jpg" alt="COVID-19 Positive Pathways Program preview" width="800" height="560" />
+          <div class="meta">
+            <h4>COVID-19 Positive Pathways Program</h4>
+            <p>Support program with dashboards and insights for COVID-19 recovery.</p>
+          </div>
         </a>
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
   <footer>
     <div class="container" style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap">
       <span class="muted">© <span id="y"></span> SDK Associates</span>
@@ -70,8 +99,8 @@
     </div>
   </footer>
 
-  <!-- Script (reuse drawer toggle logic) -->
   <script>
+    // Drawer behaviour (same as index)
     const btn = document.getElementById('menubtn');
     const drawer = document.getElementById('drawer');
     const closeDrawer = document.getElementById('closeDrawer');
@@ -91,7 +120,6 @@
       backdrop.hidden = true;
       btn.setAttribute('aria-expanded','false');
     }
-
     if(btn){ btn.addEventListener('click', openDrawer); }
     if(closeDrawer){ closeDrawer.addEventListener('click', close); }
     if(backdrop){ backdrop.addEventListener('click', close); }
