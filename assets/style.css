@@ -95,9 +95,13 @@ a:hover{ color:var(--brand-dk); }
   gap:16px; padding:12px 0;
 }
 .logo{
-  display:flex; align-items:center; gap:10px;
-  text-decoration:none; color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  font-weight:700;
+  margin-left:0;   /* keep it left */
 }
+
 .logo-img{ max-width:120px; height:auto; display:block; }
 .nav-links{
   display:flex; flex-wrap:wrap; gap:14px;
