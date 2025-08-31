@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboards | SDK Associates</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <!-- Backdrop + Drawer -->
+  <div class="backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Mobile navigation">
+    <header>
+      <strong>Menu</strong>
+      <button id="closeDrawer" class="btn btn-outline" style="padding:.4rem .7rem">Close</button>
+    </header>
+    <nav>
+      <a href="index.html#home">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#work">Work</a>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </aside>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav">
+      <button class="menu-btn" aria-expanded="false" aria-controls="drawer" id="menubtn">☰ Menu</button>
+      <nav aria-label="Primary">
+        <div class="navlinks" id="navlinks">
+          <a href="index.html#home">Home</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#services">Services</a>
+          <a href="index.html#work">Work</a>
+          <a href="dashboards.html">Dashboards</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </nav>
+      <a class="logo" href="index.html" aria-label="SDK Associates home">
+        <img src="assets/sdkassociates_logo.png" alt="SDK Associates" width="112" height="112" />
+        <span>sdk<strong>associates</strong></span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="section">
+    <div class="container">
+      <h1>Dashboards</h1>
+      <p class="maxch muted">Explore our published dashboards:</p>
+
+      <div class="cta-row" style="margin-top:1rem">
+        <a class="btn btn-primary" href="../clinical-costing-dashboard.html" target="_blank" rel="noopener">
+          Clinical Costing Dashboard
+        </a>
+        <a class="btn btn-outline" href="../covid-19-positive-pathways-program.html" target="_blank" rel="noopener">
+          COVID-19 Positive Pathways Program
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap">
+      <span class="muted">© <span id="y"></span> SDK Associates</span>
+      <a class="muted" href="index.html#home">Back to home ↑</a>
+    </div>
+  </footer>
+
+  <!-- Script (reuse drawer toggle logic) -->
+  <script>
+    const btn = document.getElementById('menubtn');
+    const drawer = document.getElementById('drawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+    const backdrop = document.getElementById('backdrop');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden','false');
+      backdrop.classList.add('show');
+      backdrop.hidden = false;
+      btn.setAttribute('aria-expanded','true');
+    }
+    function close(){
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden','true');
+      backdrop.classList.remove('show');
+      backdrop.hidden = true;
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    if(btn){ btn.addEventListener('click', openDrawer); }
+    if(closeDrawer){ closeDrawer.addEventListener('click', close); }
+    if(backdrop){ backdrop.addEventListener('click', close); }
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
