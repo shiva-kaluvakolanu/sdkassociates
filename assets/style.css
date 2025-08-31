@@ -332,3 +332,48 @@ footer{
 @media (min-width: 1440px){
   .container{ width: min(100% - 2rem, 1400px); }
 }
+
+/* ==== Header height + alignment ==== */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(7,11,15,.78);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  width: 100%;
+  height: 64px;                 /* fixed vertical height */
+}
+
+.site-header .container{
+  height: 64px;                 /* make inner row match header */
+  display: flex;
+  align-items: center;          /* vertical center */
+  justify-content: space-between;
+  padding-inline: 1rem;
+}
+
+/* Nav links spacing for the taller header */
+.navlinks a{
+  padding: 0.5rem 0.8rem;
+  line-height: 1;
+}
+
+/* ==== Header logo sizing (only in header) ==== */
+.site-header .logo img{
+  height: 40px;                 /* try 40–48px; stays inside 64px header */
+  width: auto;
+}
+
+/* Remove any auto-right push so it stays on the left */
+.logo{ margin-left: 0; }
+
+/* ==== Mobile menu button aligns in taller header ==== */
+.menu-btn{
+  padding: .45rem .7rem;
+  line-height: 1;
+}
+
+/* ==== Scope big logo elsewhere (e.g., hero) without touching header) ==== */
+/* If you still want a wide logo in non-header places, scope the width there: */
+.hero .logo-img{ width: 300px; height: auto; }   /* ONLY in hero */
